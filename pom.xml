@@ -17,6 +17,7 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <jackson.version>2.12.0</jackson.version>
         <lombok.version>1.18.18</lombok.version>
+        <rest-assured.version>4.3.3</rest-assured.version>
     </properties>
 
     <dependencies>
@@ -59,6 +60,13 @@
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-joda</artifactId>
             <version>${jackson.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>rest-assured</artifactId>
+            <version>${rest-assured.version}</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
