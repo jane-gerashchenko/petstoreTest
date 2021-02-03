@@ -37,14 +37,14 @@ public class StepDefinitions {
             .status(Status.available)
             .build();
 
-    @When("I search for available pets")
-    public void getAvailablePets() {
-        Response response = PetApi.getPets(Status.available);
+    @When("I search for {string} pets")
+    public void getPetsByStatus(String status) {
+        Response response = PetApi.getPets(Status.valueOf(status));
         setResponseContext(response);
     }
 
-    @Then("Available pets are shown")
-    public void showAvailablePets() {
+    @Then("Pets are shown")
+    public void showPets() {
         Response responseContext = getResponseContext();
         Assert.assertEquals(200, responseContext.getStatusCode());
     }
@@ -67,18 +67,18 @@ public class StepDefinitions {
         Assert.assertEquals("Tina", petDetails.getName());
     }
 
-    @When("I update status to sold")
-    public void updatePetStatus() throws Throwable {
-        petTestObject.setStatus(Status.sold);
+    @When("I update status to {string}")
+    public void updatePetStatus(String status) throws Throwable {
+        petTestObject.setStatus(Status.valueOf(status));
         Response response = PetApi.updatePet(petTestObject);
         Assert.assertEquals(200, response.getStatusCode());
         setResponseContext(response);
     }
 
-    @Then("Pet status is updated")
-    public void verifyStatusIsUpdated() throws Throwable {
+    @Then("Pet status is updated to {string}")
+    public void verifyStatusIsUpdated(String status) throws Throwable {
         PetDto.PetDetails petDetails = convertResponseToObject(getResponseContext());
-        Assert.assertEquals(Status.sold, petDetails.getStatus());
+        Assert.assertEquals(Status.valueOf(status), petDetails.getStatus());
     }
 
     @When("I delete pet")
@@ -89,8 +89,8 @@ public class StepDefinitions {
 
     @Then("Pet is deleted")
     public void petIsDeleted() {
-        Response getPatResp = PetApi.getPet(createdPetData.getId());
-        Assert.assertEquals(404, getPatResp.getStatusCode());
+        Response getPetResp = PetApi.getPet(createdPetData.getId());
+        Assert.assertEquals(404, getPetResp.getStatusCode());
     }
 
     private void setResponseContext(Response lastResponse) {
